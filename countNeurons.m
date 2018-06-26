@@ -23,7 +23,6 @@ function countNeurons(img, min_neuron_size)
 
     % Remove Background Approximation and increase contrast
     bw2 = bw_file - background;
-    bw3 = imadjust(bw2);
 
     % threshold image
     binarizedImage = imbinarize(bw2,'adaptive', 'Sensitivity', 0.01);
@@ -47,5 +46,6 @@ function countNeurons(img, min_neuron_size)
     % display image and text
     imgText = ['Number of Neurons: ' num2str(cc.NumObjects)];
     imshowpair(maskedRgbImage, image, 'montage')
+    %imshow(binarizedImage)
     title(imgText);
 end
