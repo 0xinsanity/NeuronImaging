@@ -5,11 +5,8 @@
 % 
 % min_neuron_size = smallest pixel connected object that is not a neuron
 % (used to remove small white spots)
-% 
-%type_showing = how you would like to see the data presented. 'montage' =>
-% images side by side, 'diff' => on top of each other
 %
-function countNeurons(img, min_neuron_size, type_showing)
+function countNeurons(img, min_neuron_size)
     image = imread(img);
 
     bw_file = rgb2gray(image);
@@ -39,9 +36,16 @@ function countNeurons(img, min_neuron_size, type_showing)
     
     % count remaining white objects
     cc = bwconncomp(binarizedImageFINAL, 8);
-
+    
+    % split into 3 color dimenstions, convert white to different color
+    mask = binarizedImageFINAL; % Make a copy of binarizedImageFINAL and save it in mask
+    
+    % Mask the image using bsxfun() function
+    maskedRgbImage = bsxfun(@times, image, cast(mask, 'like', image));
+    %imshow(maskedRgbImage)
+    
     % display image and text
     imgText = ['Number of Neurons: ' num2str(cc.NumObjects)];
-    imshowpair(binarizedImageFINAL, image, type_showing)
+    imshowpair(maskedRgbImage, image, 'montage')
     title(imgText);
 end
