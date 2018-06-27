@@ -6,7 +6,7 @@
 % min_neuron_size = smallest pixel connected object that is not a neuron
 % (used to remove small white spots)
 %
-function countNeurons(img, min_neuron_size)
+function countNeurons(img, min_neuron_size, image_viewing_type)
     image = imread(img);
 
     bw_file = rgb2gray(image);
@@ -45,7 +45,11 @@ function countNeurons(img, min_neuron_size)
     
     % display image and text
     imgText = ['Number of Neurons: ' num2str(cc.NumObjects)];
-    imshowpair(maskedRgbImage, image, 'montage')
+    if strcmp(image_viewing_type, 'diff')
+        imshowpair(mask, image, image_viewing_type)
+    else 
+        imshowpair(maskedRgbImage, image, image_viewing_type)
+    end
     %imshow(binarizedImage)
     title(imgText);
 end
