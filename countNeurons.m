@@ -6,6 +6,8 @@
 % min_neuron_size = smallest pixel connected object that is not a neuron
 % (used to remove small white spots)
 %
+% image_viewing_type = the way you want to view your final image
+%
 function countNeurons(img, min_neuron_size, image_viewing_type)
     image = imread(img);
 
