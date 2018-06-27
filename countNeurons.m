@@ -8,7 +8,9 @@
 %
 % image_viewing_type = the way you want to view your final image
 %
-function countNeurons(img, min_neuron_size, image_viewing_type)
+% sensitivity = image sensitivity
+%
+function countNeurons(img, min_neuron_size, image_viewing_type, sensitivity)
     image = imread(img);
 
     bw_file = rgb2gray(image);
@@ -21,19 +23,16 @@ function countNeurons(img, min_neuron_size, image_viewing_type)
     % Display the Background Approximation as a Surface
     %surf(double(background(1:8:end,1:8:end))),zlim([0 255]);
     ax = gca;
-    ax.YDir = 'reverse'
+    ax.YDir = 'reverse';
 
     % Remove Background Approximation and increase contrast
     bw2 = bw_file - background;
 
     % threshold image
-    binarizedImage = imbinarize(bw2,'adaptive', 'Sensitivity', 0.01);
-    
-    % binarize image
-    binarizedImage2 = bwareaopen(binarizedImage, 100);
+    binarizedImage = imbinarize(bw2,'adaptive', 'Sensitivity', sensitivity);
 
     % remove smaller white objects
-    binarizedImageFINAL = bwareaopen(binarizedImage2, min_neuron_size);
+    binarizedImageFINAL = bwareaopen(binarizedImage, min_neuron_size);
     
     % count remaining white objects
     cc = bwconncomp(binarizedImageFINAL, 8);
