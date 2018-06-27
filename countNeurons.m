@@ -8,9 +8,9 @@
 %
 % image_viewing_type = the way you want to view your final image
 %
-% sensitivity = image sensitivity
+% threshold_adjustment = image threshold adjustment
 %
-function countNeurons(img, min_neuron_size, image_viewing_type, sensitivity)
+function countNeurons(img, min_neuron_size, image_viewing_type, threshold_adjustment)
     
     if (ischar(img))
         image = imread(img);
@@ -33,7 +33,7 @@ function countNeurons(img, min_neuron_size, image_viewing_type, sensitivity)
     bw2 = bw_file - background;
 
     % threshold image
-    binarizedImage = imbinarize(bw2,'adaptive', 'Sensitivity', sensitivity);
+    binarizedImage = imbinarize(bw2, graythresh(bw2)+threshold_adjustment);
 
     % remove smaller white objects
     binarizedImageFINAL = bwareaopen(binarizedImage, min_neuron_size);
