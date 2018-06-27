@@ -11,10 +11,14 @@
 % sensitivity = image sensitivity
 %
 function countNeurons(img, min_neuron_size, image_viewing_type, sensitivity)
-    image = imread(img);
+    
+    if (ischar(img))
+        image = imread(img);
+    else
+        image = img;
+    end
 
     bw_file = rgb2gray(image);
-
     % get background approximation of surface (lighting and stuff)
     background = imopen(bw_file,strel('disk',15));
 
